@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+gensim
+networkx
+neo4j
+numpy
