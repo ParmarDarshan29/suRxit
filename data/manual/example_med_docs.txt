@@ -1,0 +1,4 @@
+Aspirin is used for pain relief and may increase bleeding risk when combined with anticoagulants.
+Warfarin is an anticoagulant with many drug interactions, especially with NSAIDs like aspirin.
+Metformin is a first-line drug for type 2 diabetes and has few drug-drug interactions.
+Simvastatin is a statin used for cholesterol management and can interact with other drugs metabolized by CYP enzymes.

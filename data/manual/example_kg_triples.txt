@@ -1,0 +1,4 @@
+Aspirin INTERACTS_WITH Warfarin | Evidence: PubMed:654321
+Warfarin INTERACTS_WITH Metformin | Evidence: DrugBank:DB00682
+Metformin INTERACTS_WITH Simvastatin | Evidence: Medline:112233
+Aspirin INTERACTS_WITH Simvastatin | Evidence: PubMed:99999
