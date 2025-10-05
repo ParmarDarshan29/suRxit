@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+torch
+torch-geometric
+neo4j
+scikit-learn
+numpy
