@@ -1,0 +1,22 @@
+# Example Cypher queries for suRxit knowledge graph
+
+# 1. List all high-severity DDIs for a patient’s active drugs
+HIGH_SEVERITY_DDI = '''
+MATCH (p:Patient {id: $patient_id})-[:PRESCRIBED]->(d1:Drug)
+MATCH (d1)-[r:HAS_DDI {severity: "high"}]->(d2:Drug)
+RETURN d1.id AS drug1, d2.id AS drug2, r.severity, r.mechanism
+'''
+
+# 2. Shortest path Drug → Enzyme → Food
+SHORTEST_PATH_DRUG_ENZYME_FOOD = '''
+MATCH (d:Drug {id: $drug_id}), (f:Food {id: $food_id})
+MATCH path = shortestPath((d)-[*]-(e:Enzyme)-[*]-(f))
+RETURN path
+'''
+
+# 3. All ADRs linked to a given drug with evidence
+ADRS_WITH_EVIDENCE = '''
+MATCH (d:Drug {id: $drug_id})-[:HAS_ADR]->(s:SideEffect)
+OPTIONAL MATCH (d)-[r:HAS_ADR]->(s)
+RETURN s.id AS side_effect, r.evidence AS evidence
+'''

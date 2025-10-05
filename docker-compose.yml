@@ -1,84 +1,85 @@
 # Top-level docker-compose for all services and databases
+# Top-level docker-compose for all services and databases
 version: '3.8'
 services:
-	ocr:
-		build:
-			context: ./services/ocr
-		container_name: ocr
-		ports:
-			- "8001:8000"
-		volumes:
-			- ./data/uploads:/app/data/uploads
-		healthcheck:
-			test: ["CMD", "curl", "-f", "http://localhost:8000/ocr/upload"]
-			interval: 30s
-			timeout: 10s
-			retries: 3
-		environment:
-			- PYTHONUNBUFFERED=1
-		depends_on:
-			- postgres
-			- neo4j
+  ocr:
+    build:
+      context: ./services/ocr
+    container_name: ocr
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./data/uploads:/app/data/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/ocr/upload"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - postgres
+      - neo4j
 
-	ner:
-		build:
-			context: ./services/ner
-		container_name: ner
-		ports:
-			- "8002:8000"
-		healthcheck:
-			test: ["CMD", "curl", "-f", "http://localhost:8000/ner/parse"]
-			interval: 30s
-			timeout: 10s
-			retries: 3
-		environment:
-			- PYTHONUNBUFFERED=1
-		depends_on:
-			- postgres
-			- neo4j
+  ner:
+    build:
+      context: ./services/ner
+    container_name: ner
+    ports:
+      - "8002:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/ner/parse"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - postgres
+      - neo4j
 
-	standardizer:
-		build:
-			context: ./services/standardizer
-		container_name: standardizer
-		ports:
-			- "8003:8000"
-		healthcheck:
-			test: ["CMD", "curl", "-f", "http://localhost:8000/standardize"]
-			interval: 30s
-			timeout: 10s
-			retries: 3
-		environment:
-			- PYTHONUNBUFFERED=1
-		depends_on:
-			- postgres
-			- neo4j
+  standardizer:
+    build:
+      context: ./services/standardizer
+    container_name: standardizer
+    ports:
+      - "8003:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/standardize"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - postgres
+      - neo4j
 
-	postgres:
-		image: postgres:15
-		container_name: postgres
-		restart: always
-		environment:
-			POSTGRES_USER: suxuser
-			POSTGRES_PASSWORD: suxpass
-			POSTGRES_DB: sux_db
-		ports:
-			- "5432:5432"
-		volumes:
-			- pgdata:/var/lib/postgresql/data
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: suxuser
+      POSTGRES_PASSWORD: suxpass
+      POSTGRES_DB: sux_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
-	neo4j:
-		image: neo4j:5.19
-		container_name: neo4j
-		restart: always
-		environment:
-			NEO4J_AUTH: neo4j/test
-		ports:
-			- "7474:7474"
-			- "7687:7687"
-		volumes:
-			- neo4jdata:/data
+  neo4j:
+    image: neo4j:5.19
+    container_name: neo4j
+    restart: always
+    environment:
+      NEO4J_AUTH: neo4j/surxitpass123
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4jdata:/data
 
 volumes:
-	pgdata:
-	neo4jdata:
+  pgdata:
+  neo4jdata:
