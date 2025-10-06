@@ -1,0 +1,23 @@
+{
+  "ingest_id": "b52d78dd-8d72-40ee-8f20-db0a582874ad",
+  "raw_text": "Paracetamol 500mg",
+  "blocks": [
+    {
+      "text": "Paracetamol",
+      "left": 7,
+      "top": 1,
+      "width": 59,
+      "height": 28,
+      "conf": 28
+    },
+    {
+      "text": "500mg",
+      "left": 69,
+      "top": 12,
+      "width": 31,
+      "height": 10,
+      "conf": 28
+    }
+  ],
+  "timestamp": "2025-10-06T11:49:50.066239"
+}

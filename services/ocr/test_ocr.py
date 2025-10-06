@@ -2,7 +2,7 @@ import os
 import uuid
 import shutil
 from fastapi.testclient import TestClient
-from main import app
+from services.ocr.main import app
 from PIL import Image, ImageDraw
 
 def create_sample_image(path):

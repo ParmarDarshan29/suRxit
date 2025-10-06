@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app
+from services.standardizer.main import app
 
 def test_standardize_entities():
     client = TestClient(app)
