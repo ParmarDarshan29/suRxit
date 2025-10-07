@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Environment Test</title>
+</head>
+<body>
+    <h1>Environment Variables Test</h1>
+    <div id="env-test"></div>
+    <button onclick="testAPI()">Test API</button>
+    <div id="api-test"></div>
+
+    <script>
+        // Display environment variables
+        const envDiv = document.getElementById('env-test');
+        envDiv.innerHTML = `
+            <h2>Environment Variables:</h2>
+            <p>VITE_API_BASE_URL: ${import.meta.env.VITE_API_BASE_URL || 'NOT FOUND'}</p>
+            <p>VITE_ENABLE_MOCK_DATA: ${import.meta.env.VITE_ENABLE_MOCK_DATA || 'NOT FOUND'}</p>
+            <p>Mode: ${import.meta.env.MODE}</p>
+            <p>Dev: ${import.meta.env.DEV}</p>
+        `;
+
+        async function testAPI() {
+            const apiDiv = document.getElementById('api-test');
+            try {
+                const formData = new FormData();
+                formData.append('text', 'Test prescription');
+                formData.append('allergies', '[]');
+
+                console.log('Testing API call...');
+                const response = await fetch('http://localhost:8000/api/analyze/prescription', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                apiDiv.innerHTML = `
+                    <h2>API Test Result:</h2>
+                    <p>Status: ${response.status}</p>
+                    <p>Risk Score: ${data.risk_score}</p>
+                    <p>Level: ${data.level}</p>
+                `;
+            } catch (error) {
+                console.error('API Error:', error);
+                apiDiv.innerHTML = `
+                    <h2>API Test Error:</h2>
+                    <p>Error: ${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct API Test</title>
+</head>
+<body>
+    <h1>Direct Prescription Analysis Test</h1>
+    
+    <form id="testForm">
+        <div>
+            <label>Prescription Text:</label><br>
+            <textarea id="prescriptionText" placeholder="Enter prescription...">Warfarin 5mg daily, Aspirin 81mg</textarea>
+        </div>
+        <br>
+        <div>
+            <label>Allergies:</label><br>
+            <input type="text" id="allergies" placeholder="JSON array" value='["Penicillin"]'>
+        </div>
+        <br>
+        <button type="button" onclick="testWithFetch()">Test with Fetch</button>
+        <button type="button" onclick="testWithAxios()">Test with Axios</button>
+    </form>
+
+    <div id="results"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const resultsDiv = document.getElementById('results');
+
+        function log(message) {
+            console.log(message);
+            resultsDiv.innerHTML += '<p>' + JSON.stringify(message) + '</p>';
+        }
+
+        async function testWithFetch() {
+            log('=== TESTING WITH FETCH ===');
+            resultsDiv.innerHTML = '';
+            
+            try {
+                const formData = new FormData();
+                formData.append('text', document.getElementById('prescriptionText').value);
+                formData.append('allergies', document.getElementById('allergies').value);
+
+                log('Sending fetch request to: http://localhost:8000/api/analyze/prescription');
+                
+                const response = await fetch('http://localhost:8000/api/analyze/prescription', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                log('Response status: ' + response.status);
+                
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+                }
+
+                const data = await response.json();
+                log('✅ FETCH SUCCESS!');
+                log('Risk Score: ' + data.risk_score);
+                log('Level: ' + data.level);
+                
+            } catch (error) {
+                log('❌ FETCH ERROR: ' + error.message);
+                log('Full error: ' + error);
+            }
+        }
+
+        async function testWithAxios() {
+            log('=== TESTING WITH AXIOS ===');
+            resultsDiv.innerHTML = '';
+            
+            try {
+                const formData = new FormData();
+                formData.append('text', document.getElementById('prescriptionText').value);
+                formData.append('allergies', document.getElementById('allergies').value);
+
+                // Create axios instance similar to the React app
+                const api = axios.create({
+                    baseURL: 'http://localhost:8000/api',
+                    timeout: 15000,
+                });
+
+                log('Sending axios request to: http://localhost:8000/api/analyze/prescription');
+                
+                const response = await api.post('/analyze/prescription', formData);
+
+                log('✅ AXIOS SUCCESS!');
+                log('Response status: ' + response.status);
+                log('Risk Score: ' + response.data.risk_score);
+                log('Level: ' + response.data.level);
+                
+            } catch (error) {
+                log('❌ AXIOS ERROR: ' + error.message);
+                log('Error code: ' + error.code);
+                log('Error response: ' + JSON.stringify(error.response?.data));
+                log('Full error: ' + error);
+            }
+        }
+    </script>
+</body>
+</html>
