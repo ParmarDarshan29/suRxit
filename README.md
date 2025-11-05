@@ -26,35 +26,38 @@ Prerequisites
 Typical local steps (high level)
 
 1. Clone the repository:
-
+```
 	 git clone <your-repo-url>
 	 cd suRxit
-
+```
 2. Backend (Python)
 
 - Create a virtual environment and install requirements:
-
+```
 	python -m venv .venv
 	source .venv/bin/activate
 	pip install -r backend/requirements.txt
+```
 
 - Copy `backend/.env.example` -> `backend/.env` and fill values (see Environment variables below).
 
 - Run the backend service (example):
-
+```
 	cd backend
 	# small helper exists: start.sh or simple_main.py; check backend/README.md for exact command
+```
 
 3. Frontend (Vite + React)
 
 - Install and run the frontend:
-
+```
 	cd frontend
 	npm install
 	# create .env from .env.example
 	cp .env.example .env
 	# set VITE_GEMINI_API_KEY and other values in .env
 	npm run dev
+```
 
 Notes
 - The repo contains demo credentials and example env files. DO NOT commit real API keys. See the Security section below before publishing.
@@ -103,25 +106,25 @@ Run that only after you've completed the security checklist and removed any sens
 If secrets were committed, removing them from the working tree is not enough — they live in git history. Two common tools to purge history:
 
 1) BFG Repo-Cleaner (simpler to use)
-
+```
 	# Download BFG jar and run (example)
 	bfg --delete-files YOUR_FILE_WITH_SECRET
 	git reflog expire --expire=now --all && git gc --prune=now --aggressive
-
+```
 2) git filter-repo (recommended for complex rewrites)
-
+```
 	# Example: remove all occurrences of a string
 	git filter-repo --replace-text replacements.txt
-
+```
 Where `replacements.txt` contains lines like:
-
+```
 	literal-string-to-remove==>REDACTED
-
+```
 After rewriting history, force-push to the remote (note: this is destructive and will rewrite commit SHAs):
-
+```
 	git push --force --all
 	git push --force --tags
-
+```
 Important: coordinate with collaborators before forcing history changes. If you prefer not to rewrite history, rotate the leaked keys immediately and keep note of what was exposed.
 
 ## Rotating compromised keys
@@ -133,10 +136,10 @@ If any API key was accidentally committed:
 3. Remove the old key from code and history (see previous section) or at minimum mark it rotated and not usable.
 
 ## Security checklist before publishing (quick)
-- [ ] No hard-coded secrets in source files
-- [ ] `.env` or other secret files are in `.gitignore`
-- [ ] Any leaked keys rotated and revoked
-- [ ] Sensitive files removed from git history or keys revoked
+- [x] No hard-coded secrets in source files
+- [x] `.env` or other secret files are in `.gitignore`
+- [x] Any leaked keys rotated and revoked
+- [x] Sensitive files removed from git history or keys revoked
 - [ ] CI/CD secrets configured in GitHub (Settings → Secrets) for required API keys
 - [ ] Minimal disclosure: .env.example present with placeholders, not real values
 
