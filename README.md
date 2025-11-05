@@ -1,3 +1,7 @@
+# <p align="center">
+	<img src="surxit.png" alt="suRxit logo" width="160" />
+</p>
+
 # suRxit
 
 suRxit is an AI-driven healthcare risk intelligence platform that processes unstructured medical documents and produces explainable risk signals for clinicians and payers. The project is split into modular services (backend, frontend, model assets, and microservices).

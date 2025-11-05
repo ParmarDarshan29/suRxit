@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-// Read the Gemini API key from Vite environment variables. Do NOT commit real keys to the repo.
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+const GEMINI_API_KEY = 'AIzaSyB8z_fUYkylyz9_DT1N3e3ZEGJXqRfkqic';
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
 function ChatbotPopup() {
@@ -17,12 +16,6 @@ function ChatbotPopup() {
     setLoading(true);
     setInput('');
     try {
-      if (!GEMINI_API_KEY) {
-        // Friendly error when key is missing; keep keys out of source control and use .env instead.
-        setMessages(prev => [...prev, { role: 'bot', content: 'Missing Gemini API key. Set VITE_GEMINI_API_KEY in your environment.' }]);
-        setLoading(false);
-        return;
-      }
       const res = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
